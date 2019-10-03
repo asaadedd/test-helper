@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Message } from '@test-helper/api-interfaces';
+import React from 'react';
+import Header from "./modules/header/header";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import TestsList from "./modules/tests-list/tests-list";
+import Test from './modules/test/test';
+
+import './app.css';
 
 export const App = () => {
-  const [m, setMessage] = useState<Message>({ message: '' });
-
-  useEffect(() => {
-    fetch('/api')
-      .then(r => r.json())
-      .then(setMessage);
-  }, []);
-
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to test-helper!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png"
-        />
-      </div>
-      <div>{m.message}</div>
+      <Router>
+        <div className="app">
+          <Header/>
+          <div className="app-main-view">
+            <Switch>
+              <Route exact path="/"  component={TestsList} />
+              <Route path="/tests" component={TestsList} />
+              <Route path="/test/:id" component={Test} />
+            </Switch>
+          </div>
+        </div>
+      </Router>
     </>
   );
 };
